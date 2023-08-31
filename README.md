@@ -33,4 +33,6 @@ INSERT INTO shop (name, address) VALUES ('test3', 'address3');
 SELECT * FROM shop LIMIT 3;
 --id1を取得--
 SELECT * FROM shop WHERE id = 1;
+--id5とid6のデータを削除
+DELETE FROM shop WHERE id = 5 OR id = 6;
 ```

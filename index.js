@@ -47,8 +47,25 @@ app.get("/shop", (req, res) => {
   });
 });
 
+// 特定のデータの取得
+app.get("/shop/:id", (req, res) => {
+  const id = req.params.id;
+  const query = "SELECT * FROM shop WHERE id = ?";
+  db.query(query, [id], (err, result) => {
+    if (err) {
+      console.log(err);
+      res.status(500).send("Error retrieving data from database");
+    } else {
+      res.status(200).json(result);
+    }
+  });
+});
+
 // データの更新
 app.put("/shop/:id", (req, res) => {
+  console.log(req.params);
+  console.log(req.body);
+
   const id = req.params.id;
   const name = req.body.name;
   const address = req.body.address;  // これを追加
