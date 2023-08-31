@@ -9,10 +9,10 @@ app.use(express.json());
 
 // MySQLの接続情報
 const db = mysql.createConnection({
-  user: "root",// 作成したユーザー名
-  host: "localhost",// host名
-  password: "1234",// 作成したユーザーのパスワード
-  database: "MyData",// 作成したデータベース名
+  user: "root", // 作成したユーザー名
+  host: "localhost", // host名
+  password: "1234", // 作成したユーザーのパスワード
+  database: "MyData", // 作成したデータベース名
   port: 3306, // MySQLのデフォルトポート
 });
 
@@ -22,7 +22,8 @@ app.post("/shop", (req, res) => {
   const address = req.body.address;
 
   const query = "INSERT INTO shop (name, address) VALUES (?, ?)";
-  db.query(query, [name, address], (err, result) => {  // addressを追加
+  db.query(query, [name, address], (err, result) => {
+    // addressを追加
     if (err) {
       console.log(err);
       res.status(500).send({ error: "Error inserting data into database" });
@@ -31,8 +32,6 @@ app.post("/shop", (req, res) => {
     }
   });
 });
-
-
 
 // データの取得
 app.get("/shop", (req, res) => {
@@ -63,20 +62,17 @@ app.get("/shop/:id", (req, res) => {
 
 // データの更新
 app.put("/shop/:id", (req, res) => {
-  console.log(req.params);
-  console.log(req.body);
-
-  const id = req.params.id;
+  const id = parseInt(req.params.id, 10); // idを整数に変換
   const name = req.body.name;
-  const address = req.body.address;  // これを追加
+  const address = req.body.address; // これを追加
 
   const query = "UPDATE shop SET name = ?, address = ? WHERE id = ?";
-  db.query(query, [name, address, id], (err, result) => {  // address と id の順番に注意
+  db.query(query, [name, address, id], (err, result) => {
     if (err) {
       console.log(err);
-      res.status(500).send("Error updating data in database");
+      res.status(500).json({ error: "Error updating data in database" });
     } else {
-      res.status(200).send("Value Updated");
+      res.status(200).json({ message: "Value Updated" });
     }
   });
 });
